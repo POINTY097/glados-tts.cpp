@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.19)
+set(CXX_STANDARD 17)
+project(glados-tts)
+set(TORCH_DIR "/home/pointy/pytorch/build_mobile/install/")
+set(CMAKE_PREFIX_PATH "${TORCH_DIR}")
+find_package(Torch REQUIRED)
+add_executable(glados-tts glados-tts.cpp)
+target_include_directories(glados-tts PRIVATE "${TORCH_INCLUDE_DIRS}")
+target_link_libraries(glados-tts "${TORCH_LIBRARIES}")
+target_link_libraries(glados-tts "espeak-ng")
+set_property(TARGET glados-tts PROPERTY CXX_STANDARD 17)
+file(GLOB MODELS
+  "models/*.pt"
+)
+file(COPY ${MODELS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
